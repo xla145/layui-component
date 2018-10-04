@@ -10,6 +10,9 @@
 <div class="admin-main">
     <!-- 筛选组 -->
     <blockquote class="layui-elem-quote filter-bar">
+        <div class="layui-codition-list">
+
+        </div>
         <form class="layui-form" action="/table.html" id="filterForm">
             <input type="hidden" name="label" value="${label!''}">
             <div class="layui-inline layui-filter-condition">
@@ -78,16 +81,14 @@
             </div>
         </form>
     </blockquote>
-    <div class="layui-codition-list">
 
-    </div>
 </div>
 
 <script>
     layui.use(['form'], function () {
         var $ = layui.jquery, form = layui.form;
         let html = "<div class=\"layui-tool-self layui-form\">\n" +
-            "        <div class=\"layui-inline\" title=\"筛选列\" lay-event=\"LAYTABLE_COLS\"><i class=\"layui-icon layui-icon-list\"></i>\n" +
+            "        <div class=\"layui-inline\" title=\"筛选列\" lay-event=\"LAYTABLE_COLS\"><i class=\"layui-icon layui-icon-cols\"></i>\n" +
             "            <ul class=\"layui-tool-panel\" style='display: none'>";
         $("#filterForm .layui-filter-condition").each(function (i, j) {
             let name = $(this).find("input").attr("name") || $(this).find("select").attr("name");
@@ -121,7 +122,6 @@
             layui.stope(e);
         });
 
-
         $(document).click(function(e){
             var _con = $('.layui-codition-list');   // 设置目标区域
             if(!_con.is(e.target) && _con.has(e.target).length === 0){ // Mark 1
@@ -133,21 +133,21 @@
 </body>
 <style type="text/css">
     .layui-codition-list {
-        position: fixed;
-        top:0px;
-        right: 126px;
+        display: inline;
+        float: left;
+        margin-right: 28px;
     }
-
     .layui-tool-self.layui-form {
         margin-top: 5px;
-        padding: 10px;
+        padding: 8px;
         width: 16px;
-        height: 16px;
+        height: 19px;
         border: 1px solid #231f1f;
     }
 
 
     .layui-codition-list ul.layui-tool-panel {
+        z-index: 1;
         position: absolute;
         top: 29px;
         left: -1px;
