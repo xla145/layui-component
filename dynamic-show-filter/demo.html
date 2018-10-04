@@ -83,51 +83,14 @@
     </blockquote>
 
 </div>
-
-<script>
-    layui.use(['form'], function () {
-        var $ = layui.jquery, form = layui.form;
-        let html = "<div class=\"layui-tool-self layui-form\">\n" +
-            "        <div class=\"layui-inline\" title=\"筛选列\" lay-event=\"LAYTABLE_COLS\"><i class=\"layui-icon layui-icon-cols\"></i>\n" +
-            "            <ul class=\"layui-tool-panel\" style='display: none'>";
-        $("#filterForm .layui-filter-condition").each(function (i, j) {
-            let name = $(this).find("input").attr("name") || $(this).find("select").attr("name");
-            let title = $(this).find(".layui-filtrate-title").text();
-            title = title.substring(0,title.lastIndexOf("：") || title.lastIndexOf(":"));
-            html+="<li><input type=\"checkbox\" name='"+name+"' data-key= '"+i+"' lay-skin=\"primary\" checked=\"\"\n" +
-                "  title='"+title+"' lay-filter=\"LAY_TABLE_TOOL_COLS\">\n" +
-                "  </li>"
-        });
-        html+"</ul>\n" +
-        "        </div>\n" +
-        "    </div>";
-        $(".layui-codition-list").empty().append(html);
-        form.render();
-        form.on('checkbox(LAY_TABLE_TOOL_COLS)', function(data){
-            let form = data.elem;
-            let checked = data.elem.checked;
-            let index = $(form).data("key");
-            if (checked) {
-                $(".layui-filter-condition").eq(index).css("display","");
-            } else {
-                $(".layui-filter-condition").eq(index).css("display","none");
-            }
-        });
-
-        $(".layui-tool-self").on("click",function () {
-            $(".layui-tool-panel").css("display","");
+<script type="text/javascript">
+    layui.extend({
+        dynamicFilter: 'dynamicFilter'
+    }).use(['dynamicFilter'], function () {
+        let dynamicFilter = layui.dynamicFilter;
+        dynamicFilter.render({
+            container: '.layui-codition-list'
         })
-
-        $(".layui-tool-panel").on('click', function(e){
-            layui.stope(e);
-        });
-
-        $(document).click(function(e){
-            var _con = $('.layui-codition-list');   // 设置目标区域
-            if(!_con.is(e.target) && _con.has(e.target).length === 0){ // Mark 1
-                $(".layui-tool-panel").css("display","none");
-            }
-        });
     });
 </script>
 </body>
@@ -137,7 +100,7 @@
         float: left;
         margin-right: 28px;
     }
-    .layui-tool-self.layui-form {
+    .layui-filter-list {
         margin-top: 5px;
         padding: 8px;
         width: 16px;
@@ -145,24 +108,10 @@
         border: 1px solid #231f1f;
     }
 
-
     .layui-codition-list ul.layui-tool-panel {
-        z-index: 1;
+        z-index: 2;
         position: absolute;
-        top: 29px;
-        left: -1px;
-        padding: 5px 0;
-        min-width: 150px;
-        min-height: 40px;
-        border: 1px solid #d2d2d2;
-        text-align: left;
-        background-color: #fff;
-        box-shadow: 0 2px 4px rgba(0,0,0,.12);
-    }
-
-    .layui-codition-list ul.layui-tool-panel {
-        position: absolute;
-        top: 29px;
+        top: 37px;
         left: -1px;
         padding: 5px 0;
         min-width: 150px;
