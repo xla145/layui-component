@@ -1424,6 +1424,8 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
               td.data('content', value);
             }
           });
+        },addChecked: function (checked) {
+            data[options.checkName] = checked;
         }
       }, sets);
     };

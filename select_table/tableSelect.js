@@ -28,7 +28,7 @@ layui.define(['table', 'jquery', 'form'], function (exports) {
 
             let t = elem.offset().top + elem.outerHeight() + "px";
             let l = elem.offset().left + "px";
-            let tableName = "tableSelect_table_" + new Date().getTime();
+            let tableName = "tableSelect_table";
             let tableBox = '<div class="tableSelect layui-anim layui-anim-upbit" style="left:' + l + ';top:' + t + ';border: 1px solid #d2d2d2;background-color: #fff;box-shadow: 0 2px 4px rgba(0,0,0,.12);padding:10px 10px 0 10px;position: absolute;z-index: 100;margin: 5px 0;border-radius: 2px;">';
             tableBox += '<div class="tableSelectBar">';
             tableBox += '<form class="layui-form" action="" style="display:inline-block;">';
@@ -84,6 +84,7 @@ layui.define(['table', 'jquery', 'form'], function (exports) {
                 opt.done(elem, checkStatus);
                 tableBox.remove();
             })
+
 
             //按钮选中
             tableBox.find('.tableSelect_btn_select').on('click', function () {

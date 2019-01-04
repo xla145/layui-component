@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8" />
-	<script type="text/javascript" src="../layui/layui.js"></script>
+	<script type="text/javascript" src="../layui/layui.js?v=2011"></script>
 	<link rel="stylesheet" href="../layui/css/layui.css">
 	<script type="text/javascript" src="tableSelect.js"></script>
 	<title>TableSelect</title>
@@ -21,8 +21,8 @@
 	</form>
 </body>
 <script type="text/javascript">
-	layui.use('tableSelect',function () {
-        let $ = layui.jquery, tableSelect = layui.tableSelect;
+	layui.use(['tableSelect','table','form'],function () {
+        let $ = layui.jquery, tableSelect = layui.tableSelect , table = layui.table,form = layui.form;
         tableSelect.render({
             elem: '#demo',
             searchKey: 'username',
@@ -37,7 +37,12 @@
                     { field: 'sex', title: '性别', width:100 }
                 ]],
                 page: true,
-                height: 315
+                height: 315,
+                toolbar:'<div class="layui-btn-group">\n' +
+                    '  <button class="layui-btn layui-btn-xs" lay-event="add">增加</button>\n' +
+                    '  <button class="layui-btn layui-btn-xs" lay-event="edit">编辑</button>\n' +
+                    '  <button class="layui-btn layui-btn-xs" lay-event="del">删除</button>\n' +
+                    '</div>'
             },
             done: function (elem, data) {
                 let newJson = [];
@@ -50,6 +55,42 @@
                 $(".table-ids").val(ids.join(","));
             }
         })
+
+
+        //监听行单击事件
+        table.on('row(tableSelect_table)', function(obj){
+            let background = $(obj.tr).css("background-color");
+            if (background == "rgb(201, 228, 241)") {
+                $(obj.tr).find('input[type="checkbox"]').prop('checked', false);
+                form.render('checkbox');
+                obj.addChecked(false);
+                $(obj.tr).css("background-color","rgb(242, 242, 242)")
+                return;
+            } else {
+                $(obj.tr).find('input[type="checkbox"]').prop('checked', true);
+                form.render('checkbox');
+                $(obj.tr).css("background-color","#c9e4f1");
+                obj.addChecked(true);
+            }
+        });
+
+        table.on('toolbar(tableSelect_table)', function(obj){
+            var type = obj.event;
+            active[type] ? active[type].call(this, [obj.data]) : '';
+        });
+
+
+        var active = {
+            del:function () {
+				console.log("del")
+            },
+            add:function () {
+                console.log("add")
+            },
+            edit:function () {
+                console.log("edit")
+            }
+		}
     })
 </script>
 

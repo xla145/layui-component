@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>excel导出扩展分享</title>
+	<link rel="stylesheet" type="text/css" href="../layui/css/layui.css">
+	<script type="text/javascript" src="../layui/layui.js"></script>
+
+	<!-- IE需要把JS放在上边，否则onclick失效 -->
+	<script type="text/javascript">
+
+
+	function exportApiDemo() {
+		layui.use(['jquery', 'excel', 'layer'], function() {
+			var $ = layui.jquery;
+			var layer = layui.layer;
+			var excel = layui.excel;
+
+			let e = excel.render({
+                header:{ name: "用户名", range: '时间', sex: '性别',  city: '城市',  score: '签名' },
+				// 格式化数据
+                fields: {
+                    name: 'username',
+                    range: function(value, line, data) {
+                        return line['start'] + '~' + line['end'];
+                    },
+                    score: function(value, line, data) {
+                        return value * 10;
+                    }
+				}
+			})
+
+
+			let data = [];
+
+
+			for (let i = 0 ; i < 100; i++) {
+                data.push({ 'username': '123','sex': '男', 'city': '上海', 'score': 100,'start': '2018-12-29', 'end': '2018-12-30' });
+			}
+
+            // var data = [{ 'username': '123','sex': '男', 'city': '上海', 'score': 100,'start': '2018-12-29', 'end': '2018-12-30' },];
+
+            var timestart = Date.now();
+
+            e.exportExcel(data, '导出接口数据.xlsx', 'xlsx');
+
+            var timeend = Date.now();
+
+            var spent = (timeend - timestart) / 1000;
+
+            layer.alert('单纯导出耗时 '+spent+' s');
+
+		});
+	}
+	</script>
+</head>
+<body>
+<div class="layui-container">
+	<div class="layui-row">
+		<div class="layui-col-md11 layui-col-md-offset1">
+			<fieldset class="layui-elem-field layui-field-title"><legend>excel导出操作演示</legend></fieldset>
+			<div class="layui-form">
+				<div class="layui-form-item">
+					<div class="layui-form-label">普通操作</div>
+					<div class="layui-form-block">
+						<button type="button" class="layui-btn layui-btn-primary" onclick="exportApiDemo()">导出数据测试</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
