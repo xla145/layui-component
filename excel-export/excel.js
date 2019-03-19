@@ -22,7 +22,7 @@ layui.define(['layer','xlsx','util'], function (exports) {
         }
         this.rABS = false;
         this.wb = null;
-    };
+    }
 
     Excel.prototype.readExcel = function (file) {
         let that = this;
@@ -41,14 +41,14 @@ layui.define(['layer','xlsx','util'], function (exports) {
                 }
             };
             reader.onloadend = function () {
-                resolve(XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]));
+                resolve(XLSX.utils.sheet_to_json(that.wb.Sheets[that.wb.SheetNames[0]]));
             }
             if (that.rABS) {
                 reader.readAsArrayBuffer(file);
             } else {
                 reader.readAsBinaryString(file);
             }
-        })
+        });
     }
 
 
@@ -119,12 +119,14 @@ layui.define(['layer','xlsx','util'], function (exports) {
             }
             exportData.push(formatData);
         }
-        console.log(exportData)
         return exportData;
     }
 
 
-
+    /**
+     * 导出excel
+     * @param data
+     */
     Excel.prototype.exportExcel = function (data) {
         let that = this;
         let options = that.options;
@@ -160,7 +162,13 @@ layui.define(['layer','xlsx','util'], function (exports) {
 
     var e = function () {}
 
-    e.render = function (options) {
+
+    /**
+     * 数据配置
+     * @param options
+     * @returns {Excel}
+     */
+    e.dataConfig = function (options) {
         let excel = new Excel();
         excel.options = $.extend(excel.options,options);
         return excel;
