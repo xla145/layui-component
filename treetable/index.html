@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>树形表格</title>
+    <script type="text/javascript" src="../layui/layui.js?v=2011"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="treetable.css">
+    <!--<script type="text/javascript" src="treetable.js"></script>-->
+</head>
+<body>
+
+<table class="layui-table" id="tableAuth" lay-filter="tableAuth"></table>
+
+<script>
+    layui.use(['treetable'],function () {
+        let treetable = layui.treetable,$ = layui.jquery;
+        // 渲染表格
+        function renderTable() {
+            treetable.render({
+                treeColIndex: 1,
+                treeSpid: -1,
+                treeIdName: 'authorityId',
+                treePidName: 'parentId',
+                elem: '#tableAuth',
+                url: 'authorities.json',
+                cellMinWidth: 100,
+                cols: [[
+                    {type: 'numbers', title: '#'},
+                    {field: 'authorityName', title: '权限名称', minWidth: 200},
+                    {field: 'menuUrl', title: '菜单url'},
+                    {field: 'authority', title: '权限标识'},
+                    {field: 'orderNumber', title: '排序号', align: 'center'},
+                    {
+                        title: '类型', templet: function (d) {
+                            var strs = ['<span class="layui-badge-rim">菜单</span>', '<span class="layui-badge layui-bg-gray">按钮</span>'];
+                            return strs[d.isMenu];
+                        }, align: 'center'
+                    },
+                ]]
+            });
+        }
+        renderTable();
+    })
+</script>
+</body>
+</html>
